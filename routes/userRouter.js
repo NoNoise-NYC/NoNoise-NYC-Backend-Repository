@@ -1,18 +1,12 @@
+const express = require('express')
+const userRouter = express.Router()
+const usersController = require('../controller/userController.js')
 
-const express = require("express");
-const app = express()
-const UserController = require("../controllers/userControllers.js");
+userRouter.get('/users', usersController.getAllUsers)
+// username for user is stored in local storage on sign in
+userRouter.get('/users/:username', usersController.getUsernameAndEmail)
+userRouter.get('/:email/:password', usersController.loginAuthentication)
 
-const router = express.Router();
+userRouter.post('/new_user', usersController.addUserInfo)
 
-router.get("/login", UserController.getAllUsers);
-
-router.get("/:id", UserController.getSingleUser);
-
-router.get("/all", UserController.getAllUsersInfo);
-
-router.post("/register",UserController.createUser)
-
-
-
-module.exports = router;
+module.exports = userRouter

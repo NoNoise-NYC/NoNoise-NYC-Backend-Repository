@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "knex": "^2.4.2",
+    "mongodb": "^4.13.0",
+    "mongoose": "^6.8.4",
+    "nodemon": "^2.0.20"
+  },
+  "name": "nonoise-nyc-backend-repository",
+  "description": "> NoNoise NYC is is a Full-stack community-based networking application that allows users to interactively see noise pollution levels across\r all five boroughs of New York City. Users are also able to post questions and privately chat with each other about how noise\r pollution affects their lives on a daily basis.. Users can also make complaints and suggestions to 311(NYC’s non-emergency\r hotline).",
+  "version": "1.0.0",
+  "main": "db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoNoise-NYC/NoNoise-NYC-Backend-Repository.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoNoise-NYC/NoNoise-NYC-Backend-Repository/issues"
+  },
+  "homepage": "https://github.com/NoNoise-NYC/NoNoise-NYC-Backend-Repository#readme"
+}

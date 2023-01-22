@@ -1,12 +1,15 @@
-const { Pool } = require('pg')
+const mongoose = require('mongoose');
 
-const pool = new Pool({
-  database: 'noNoise',
-  user:     'marcy',
-  password: 'marcy',
-  host: 'localhost',
-  port: 5432
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb://localhost:27017";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
 
-})
-
-module.exports = {pool}
+process.on('SIGINT', () => {
+  client.close();
+  process.exit();
+});
