@@ -1,22 +1,24 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
-exports.seed = async function (knex) {
-  // Deletes ALL existing entries
-  await knex('users').del()
-  await knex('posts').del()
-  await knex('comments').del()
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.set('strictQuery', false);
 
-  await knex('users').insert([
-    { first_name: 'Evan', last_name: 'Lu', email: 'Evan4lfye@gmail.com', password: 'e' },
-  ]);
+const Users1 = require('../model/userModel');
 
-  await knex('posts').insert([
-    { post_description: 'I love Marcy', user_id: 1 },
-  ]);
+const create = Users1.createAccountToDB(
+  2,
+ 'user1',
+  'user1@example.com',
+'password',
+ 2)
 
-  await knex('comments').insert([
-    { commentary: 'I love Marcy too', post_id: 1, user_id: 1 },
-  ]);
-};
+async function seed() {
+try {
+
+await create
+
+} catch (error) {
+console.error(error);
+}
+mongoose.connection.close();
+}
+seed();

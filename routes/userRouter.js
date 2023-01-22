@@ -1,6 +1,6 @@
 const express = require('express')
 const userRouter = express.Router()
-const usersController = require('../controller/userController.js')
+const usersController = require('../controllers/userControllers.js')
 
 userRouter.get('/users', usersController.getAllUsers)
 // username for user is stored in local storage on sign in
