@@ -1,63 +1,57 @@
-const bcrypt = require('bcrypt')
-const User = require('../model/userModel')
+const bcrypt = require('bcrypt');
+const User = require('../model/userModel');
 
-const getAllUsers = async (request, response) => {
-    try {
-        const users = await User.find({});
-        response.send(users);
-    } catch (error) {
-        throw new Error(error);
-    }
-}
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.grabUsersFromDB();
+    res.send(users);
+  } catch (error) {
+    res.status(500).send({ error: 'Failed to retrieve users' });
+  }
+};
 
-const loginAuthentication = async (request, response) => {
-    try {
-        const user = await User.findOne({ email: request.params.email });
-        if (user) {
-            const passCheck = await bcrypt.compare(request.params.password, user.password);
-            if (passCheck) {
-                response.send({ alert: 'logged in', data: user });
-            } else {
-                response.send({ alert: 'invalid log in' });
-            }
-        } else {
-            response.send({ alert: 'invalid log in' });
-        }
-    } catch (error) {
-        throw new Error(error);
+const loginAuthentication = async (req, res) => {
+  try {
+    const user = await User.grabUsersDataByEmailFromDB(req.body.email);
+    if (user) {
+      const passCheck = await bcrypt.compare(req.body.password, user.password);
+      if (passCheck) {
+        res.send({ alert: 'logged in', data: user });
+      } else {
+        res.status(401).send({ alert: 'invalid log in' });
+      }
+    } else {
+      res.status(401).send({ alert: 'invalid log in' });
     }
-}
+  } catch (error) {
+    res.status(500).send({ error: 'Failed to authenticate' });
+  }
+};
 
-const addUserInfo = async (request, response) => {
-    try {
-        const saltRounds = 10;
-        const salt = await bcrypt.genSalt(saltRounds);
-        const hashedPassword = await bcrypt.hash(request.body.password, salt);
-        const newUser = await User.create({
-            id: request.body.id,
-            username: request.body.username,
-            email: request.body.email,
-            password: hashedPassword,
-            badged_id: request.body.badged_id
-        });
-        response.send(newUser);
-    } catch (error) {
-        throw new Error(error);
-    }
-}
+const addUserInfo = async (req, res) => {
+  try {
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const newUser = await User.createAccountToDB(req.body.id, req.body.username, req.body.email, hashedPassword, req.body.badged_id);
+    res.send(newUser);
+  } catch (error) {
+    res.status(500).send({ error: 'Failed to create user' });
+  }
+};
 
-const getUsernameAndEmail = async (request, response) => {
-    try {
-        const user = await User.findOne({ username: request.params.username }, { username: 1, email: 1 });
-        response.send(user);
-    } catch (error) {
-        throw new Error(error);
-    }
-}
+const getUsernameAndEmail = async (req, res) => {
+  try {
+    const user = await User.grabUsernameAndEmailFromDB(req.query.username);
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ error: 'Failed to retrieve user information' });
+  }
+};
 
 module.exports = {
-    getAllUsers,
-    loginAuthentication,
-    addUserInfo,
-    getUsernameAndEmail
-}
+  getAllUsers,
+  loginAuthentication,
+  addUserInfo,
+  getUsernameAndEmail
+};

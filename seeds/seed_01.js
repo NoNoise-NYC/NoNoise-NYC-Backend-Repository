@@ -6,7 +6,7 @@ const Users1 = require('../model/userModel');
 
 const create = Users1.createAccountToDB(
   2,
- 'user1',
+ 'wayne',
   'user1@example.com',
 'password',
  2)
