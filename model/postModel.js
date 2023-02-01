@@ -42,9 +42,9 @@ throw new Error(error);
 }
 }
 
-static async addPostToDB(newPostId, userId, postTitle, postDescription, postType) {
+static async addPostToDB(postId, userId, postTitle, postDescription, postType) {
 try {
-const newPost = await Post.create({ newPostId, userId, postTitle, postDescription, postType });
+const newPost = await Post.create({ postId:postId, userId:userId, postTitle, postDescription, postType });
 return newPost;
 } catch (error) {
 throw new Error(error);

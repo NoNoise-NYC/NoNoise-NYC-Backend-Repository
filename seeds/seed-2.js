@@ -3,24 +3,29 @@ const Post = require('../model/postModel.js');
 
 mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
-const create = Post.addPostToDB()
-
+const create = Post.addPostToDB(1,
+  1,
+  'most asked question',
+ 'how to answer tell me about yourself',
+ 'Behavioral')
+const post = {
+  post_id: 1,
+  user_id: 1,
+  post_title: 'most asked question',
+  post_description: 'how to answer tell me about yourself',
+  post_type: 'Behavioral'
+  };
 async function seed() {
 try {
-const post = {
-post_id: 1,
-user_id: 1,
-post_title: 'most asked question',
-post_description: 'how to answer tell me about yourself',
-post_type: 'Behavioral'
-};
-await create( 1,
-   1,
-   'most asked question',
-  'how to answer tell me about yourself',
-  'Behavioral',
-)
 
+await create
+}
+
+catch (error) {
+  console.error(error);
+  }
+}
+seed();
 
 // const post2 = {
 //   post_id: 2,
@@ -45,9 +50,5 @@ await create( 1,
 // await create(post)
 
 
-} catch (error) {
-  console.error(error);
-  }
-  mongoose.connection.close();
-  }
-  seed();
+ 
+  
