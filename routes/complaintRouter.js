@@ -4,6 +4,6 @@ const complaintController = require('../controllers/complaintController.js');
 
 router.get('/complaints', complaintController.getComplaints);
 
-router.post('/complaints', complaintController.addComplaint);
+router.post('/complaints', complaintController.createComplaint);
 
 module.exports = router;

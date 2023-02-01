@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
-    const Post = mongoose.model("Post");
-    const Users = mongoose.model("Users");
+
+mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+
+    // const Post = mongoose.model("postSchema");
+    // const Users = mongoose.model("userschema");
     
     const getPost = async (request, response) => {
     const data = await Post.find({});

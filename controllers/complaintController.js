@@ -1,4 +1,4 @@
-const Complaints =  require('../models/complaintsModel');
+const Complaints =  require('../model/complaintsModel');
 
 class ComplaintsController {
   static async createComplaint(userId, title, description, zipCode, severityLevel) {

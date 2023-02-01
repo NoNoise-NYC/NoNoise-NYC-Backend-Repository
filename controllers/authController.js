@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const UserModel = require('../models/usersModel');
-const UserController = require('../controllers/usersController');
+const UserModel = require('../model/usersModel');
+const UserController = require('../controllers/userControllers');
 
 class AuthController {
   static validateRegistration = async (req, res) => {
