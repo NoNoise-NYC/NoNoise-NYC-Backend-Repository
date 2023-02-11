@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Complaints = require('../model/complaintsModel.js');
+const {Complaints} = require('../model/complaintsModel.js');
 
 mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 

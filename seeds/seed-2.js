@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const Post = require('../model/postModel.js');
+const {Posts} = require('../model/postModel.js');
 
 mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
-const create = Post.addPostToDB(1,
-  1,
+const create = Posts.addPostToDB(9,
+  9,
   'most asked question',
  'how to answer tell me about yourself',
  'Behavioral')

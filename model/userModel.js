@@ -3,8 +3,6 @@ const Schema = mongoose.Schema;
 mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-
 const userSchema = new Schema({
 id: Number,
 username: String,
@@ -16,15 +14,15 @@ badged_id: Number
 const User = mongoose.model('users', userSchema);
 
 class Users {
-static async grabUsersFromDB() {
-try {
-const users = await User.find({});
-return users;
-} catch (error) {
-throw new Error(error);
-}
-}
-
+    static async grabUsersFromDB() {
+        try {
+          const users = await User.find({}).select("-password");
+          return users;
+        } catch (error) {
+          throw new Error(error);
+        }
+      }
+      
 static async grabLatestUserIdFromDB() {
     try {
         const latestUser = await User.findOne().sort({ id: -1 });
@@ -98,7 +96,7 @@ static async updateBadgeOnDB(newBadge, username) {
 }
 }
 
-module.exports = Users
+module.exports = {Users,User}
 
 process.on('SIGINT', () => {
 mongoose.connection.close();

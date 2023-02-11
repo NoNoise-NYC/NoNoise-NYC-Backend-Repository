@@ -67,6 +67,7 @@ return updatedPost;
 } catch (error) {
 throw new Error(error);
 }
+
 }
 
 static async subtractLikesForGivenPostInDB(postId) {
@@ -89,7 +90,7 @@ throw new Error(error);
 }
 
 
-module.exports = Posts
+module.exports = {Posts,Post}
 
 process.on('SIGINT', () => {
 mongoose.connection.close();

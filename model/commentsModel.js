@@ -43,7 +43,7 @@ throw new Error(error);
 }
 }
 
-module.exports = Comments
+module.exports = {Comments}
 
 process.on('SIGINT', () => {
 mongoose.connection.close();

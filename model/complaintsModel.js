@@ -34,7 +34,7 @@ class Complaints {
   }
 }
 
-module.exports = Complaints;
+module.exports = {Complaints,Complaint}
 
 process.on('SIGINT', () => {
   mongoose.connection.close();
