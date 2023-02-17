@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 //connecting database
-mongoose.connect('mongodb://localhost:27017/noNoise');
+mongoose.connect('mongodb://127.0.0.1:27017/noNoise');
 //on connection
 mongoose.connection.on('connected', () =>{
     console.log('Connected to database mongodb @27017');
@@ -31,7 +31,7 @@ module.exports = {
 
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb://localhost:27017";
+const uri = "mongodb://127.0.0.1:27017";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
   const collection = client.db("test").collection("devices");
