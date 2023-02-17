@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const complaintSchema = new Schema({
   userId: { type: Number, required: true },
@@ -34,7 +34,7 @@ class Complaints {
   }
 }
 
-module.exports = {Complaints,Complaint}
+module.exports = { Complaints, Complaint };
 
 process.on('SIGINT', () => {
   mongoose.connection.close();
