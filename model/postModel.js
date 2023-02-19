@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+
 
 const postSchema = new Schema({
-  postId: { type: Number, required: true },
+
   userId: { type: Number, required: true },
   postTitle: { type: String, required: true },
   postDescription: { type: String, required: true },
@@ -11,6 +12,8 @@ const postSchema = new Schema({
   likes: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now }
 });
+
+// postSchema.plugin(AutoIncrement, { inc_field: 'id' });
 
 const Post = mongoose.model("posts", postSchema);
 
@@ -42,9 +45,9 @@ class Posts {
     }
   }
 
-  static async addPostToDB(postId, userId, postTitle, postDescription, postType) {
+  static async addPostToDB( userId, postTitle, postDescription, postType,likes) {
     try {
-      const newPost = await Post.create({ postId, userId, postTitle, postDescription, postType });
+      const newPost = await Post.create({ userId, postTitle, postDescription, postType,likes });
       return newPost;
     } catch (error) {
       throw new Error(error);

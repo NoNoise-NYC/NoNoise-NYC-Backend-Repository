@@ -6,8 +6,8 @@ mongoose.set('strictQuery', true);
 
 const create = Complaints.createComplaintToDB
 (1,
-  "2",
-  "55",
+  "5443534",
+  "5545353",
   'most asked question'
   ,5
 )

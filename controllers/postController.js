@@ -1,26 +1,27 @@
 const mongoose = require("mongoose");
 
-mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
-    const {Posts} = require('../model/postModel.js');
+    const {Posts,Post} = require('../model/postModel.js');
     const {Users} =  require('../model/userModel.js');
     
     const getPost = async (request, response) => {
-    const data = await Posts.find({});
+    const data = await Post.find({});
     response.send(data);
     }
     
     const addPost = async (request, response) => {
     const postInfo = request.body;
   
-    const newPost = new Posts({
-    user_id: 5,
+    const newPost = {
+    user_id: postInfo.user_id,
+
     post_title: postInfo.post_title,
     post_description: postInfo.post_description,
     post_type: postInfo.post_type,
-    likes: 0
-    });
-    const post = await Posts.addPostToDB(newPost)
+    likes: postInfo.likes
+    }
+    const post = await Posts.addPostToDB(postInfo.user_id,postInfo.post_title,postInfo.post_description,postInfo.post_type,postInfo.likes)
 
     response.send(post);
     }

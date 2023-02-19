@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 mongoose.set('strictQuery', false);
-// mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true },
@@ -52,15 +52,16 @@ class Users {
     }
   }
 
-  static async grabUsernameAndEmailFromDB(username) {
+  static async grabUsernameAndEmailFromDB(id) {
     try {
-      const user = await User.findOne({ username }, { username: 1, email: 1 });
-      return user;
+      const user = await User.findOne({ id}, { username: 1, email: 1 });
+      const { username, email } = user;
+      return { username, email };
     } catch (error) {
       throw new Error(error);
     }
   }
-
+  
   static async grabPasswordByEmailFromDB(email) {
     try {
       const user = await User.findOne({ email }, { password: 1 });

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('strictQuery', true);
 
 const {Users}= require('../model/userModel');
@@ -90,3 +90,7 @@ console.error(error);
 mongoose.connection.close();
 }
 seed();
+process.on('SIGINT', () => {
+  mongoose.connection.close();
+  process.exit();
+}); 

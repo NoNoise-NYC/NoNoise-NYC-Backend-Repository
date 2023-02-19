@@ -33,16 +33,17 @@ const addUserInfo = async (req, res) => {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    const newUser = await Users.createAccountToDB(req.body.id, req.body.username, req.body.email, hashedPassword, req.body.badged_id);
+    const newUser = await Users.createAccountToDB( req.body.username, req.body.email, hashedPassword, req.body.badged_id);
     res.send(newUser);
   } catch (error) {
+    console.log(error)
     res.status(500).send({ error: 'Failed to create user' });
   }
 };
 
 const getUsernameAndEmail = async (req, res) => {
   try {
-    const user = await Users.grabUsernameAndEmailFromDB(req.query.username);
+    const user = await Users.grabUsernameAndEmailFromDB(req.query.id);
     res.send(user);
   } catch (error) {
     res.status(500).send({ error: 'Failed to retrieve user information' });

@@ -2,16 +2,13 @@ const mongoose = require('mongoose');
 const {Posts} = require('../model/postModel.js');
 mongoose.set('strictQuery', true);
 
-mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-
-
-const create = Posts.addPostToDB(9,
-  9,
-  'most asked question',
- 'how to answer tell me about yourself',
- 'Behavioral')
+const create = Posts.addPostToDB(
+  8,
+  'placeholder',
+ 'placeholder',
+ 'Bpalceholder')
 const post = {
   post_id: 1,
   user_id: 1,
@@ -55,4 +52,7 @@ seed();
 
 
  
-  
+process.on('SIGINT', () => {
+  mongoose.connection.close();
+  process.exit();
+}); 
