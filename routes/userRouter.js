@@ -4,7 +4,7 @@ const usersController = require('../controllers/userControllers.js')
 
 userRouter.get('/users', usersController.getAllUsers)
 // username for user is stored in local storage on sign in
-userRouter.get('/user/:id', usersController.getUsernameAndEmail)
+userRouter.get('/users/:id', usersController.getUsernameAndEmail)
 userRouter.get('/:email/:password', usersController.loginAuthentication)
 
 userRouter.post('/new_user', usersController.addUserInfo)

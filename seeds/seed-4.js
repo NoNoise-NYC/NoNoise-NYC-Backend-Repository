@@ -6,9 +6,9 @@ mongoose.set('strictQuery', true);
 
 const create = Complaints.createComplaintToDB
 (1,
-  "5443534",
-  "5545353",
-  'most asked question'
+  "Construction Noise",
+  "There is alot of noise pollution from a tractor in this location",
+  '11210'
   ,5
 )
 
@@ -21,3 +21,23 @@ catch (error) {
   }
 }
 seed();
+
+
+const create2 = Complaints.createComplaintToDB
+(1,
+  "Jack Hammer Noise",
+  "There is alot of noise pollution from a jackhammer in this location",
+  '11232'
+  ,5
+)
+
+async function seed2() {
+try {
+await create2
+}
+catch (error) {
+  console.error(error);
+  }
+}
+
+seed2()

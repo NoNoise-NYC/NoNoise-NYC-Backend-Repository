@@ -1,76 +1,106 @@
-const mongoose = require("mongoose");
+const { Posts } = require('../model/postModel');
+const { Users } = require('../model/userModel');
+const jwt = require('jsonwebtoken');
 
-// mongoose.connect('mongodb://localhost:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+// Route to get all posts
+const getPost = async (request, response) => {
+  const data = await Posts.grabPostFromDB()
+  response.send(data);
+};
 
-    const {Posts,Post} = require('../model/postModel.js');
-    const {Users} =  require('../model/userModel.js');
-    
-    const getPost = async (request, response) => {
-    const data = await Post.find({});
-    response.send(data);
-    }
-    
-    const addPost = async (request, response) => {
-    const postInfo = request.body;
-  
-    const newPost = {
-    user_id: postInfo.user_id,
+// Route to add a new post
+const addPost = async (request, response) => {
+  const postInfo = request.body;
 
+  // Extract the user id from the authentication token
+  const token = request.headers.authorization.split(' ')[1];
+  const decodedToken = jwt.verify(token, 'secret_key');
+  const userId = 6;
+
+  const post = await Posts.addPostToDB({
+    user: userId,
     post_title: postInfo.post_title,
     post_description: postInfo.post_description,
     post_type: postInfo.post_type,
     likes: postInfo.likes
-    }
-    const post = await Posts.addPostToDB(postInfo.user_id,postInfo.post_title,postInfo.post_description,postInfo.post_type,postInfo.likes)
+  });
 
-    response.send(post);
-    }
-    
-    const getFilteredPosts = async (request, response) => {
-    const filterValue = request.params.filter;
-    const filteredPosts = await Posts.find({ post_type: filterValue });
-    response.send(filteredPosts);
-    }
-    
-    const updateLikes = async (request, response) => {
-    const username = request.body.username;
-    const postTitle = request.body.postTitle;
-    const isLiked = request.body.isLiked;
-    
-    let postWithUpdatedLikes = null;
-const post = await Posts.findOne({ post_title: postTitle });
-if (isLiked) {
+  response.send(post);
+};
+
+// Route to get filtered posts based on a specified filter
+const getFilteredPosts = async (request, response) => {
+  const filterValue = request.params.filter;
+  const filteredPosts = await Posts.grabFilteredPostsFromDB(filterValue);
+  response.send(filteredPosts);
+};
+
+// Route to update the number of likes for a specific post
+const updateLikes = async (request, response) => {
+  const postId = request.body.postId;
+  const isLiked = request.body.isLiked;
+
+  let postWithUpdatedLikes = null;
+  const post = await Posts.grabFilteredPostsFromDB(postId);
+  if (isLiked) {
     post.likes--;
-} else {
+  } else {
     post.likes++;
-}
-postWithUpdatedLikes = await post.save();
+  }
+  postWithUpdatedLikes = await Posts.addPostToDB(post);
 
-response.send(postWithUpdatedLikes);
-}
+  response.send(postWithUpdatedLikes);
+};
 
+// Route to search for posts based on a specified search term
 const getSearchPost = async (request, response) => {
-const search = request.params.search;
-const data = await Posts.find({ post_title: { $regex: search, $options: "i" } });
-response.send(data);
-}
+  const search = request.params.search;
+  const data = await Posts.grabPostFromDBBySearch(search);
+  response.send(data);
+};
 
+// Route to get all posts ordered by the number of comments they have
 const grabPostOrderByComment = async (request, response) => {
-const data = await Posts.find({}).sort({ comments: "desc" });
-response.send(data);
-}
+  const data = await Posts.grabPostOrderByComment();
+  response.send(data);
+};
 
+// Route to get all posts ordered by the number of likes they have
 const grabPostOrderByLikes = async (request, response) => {
-const data = await Posts.find({}).sort({ likes: "desc" });
-response.send(data);
-}
+  const data = await getPostsByUser.getAllPostsSortedByLikes();
+  response.send(data);
+};
+
+// Route to get all posts by a specific user
+const getUserPosts = async (request, response) => {
+  const userId = request.params.userId;
+  const userPosts = await Posts.getPostsByUser(userId);
+  response.send(userPosts);
+};
+
+// Route to get a specific post by its ID
+const getPostById = async (request, response) => {
+  const postId = request.params.postId;
+  const post = await Posts.getPostById(postId);
+  response.send(post);
+};
+
+// Route to delete a specific post by its ID
+const deletePost = async (request, response) => {
+  const postId = request.params.postId;
+  await Posts.removePost(postId);
+  response.send("Post deleted successfully");
+};
 
 module.exports = {
-getPost,
-getFilteredPosts,
-addPost,
-updateLikes,
-getSearchPost,
-grabPostOrderByComment,
-grabPostOrderByLikes
-}
+  getPost,
+  addPost,
+  getFilteredPosts,
+  updateLikes,
+  getSearchPost,
+  grabPostOrderByComment,
+  grabPostOrderByLikes,
+  getUserPosts,
+  getPostById,
+  deletePost
+};

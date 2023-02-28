@@ -1,21 +1,38 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
+const { Users } = require('../model/userModel');
 
-
-const postSchema = new Schema({
-
-  userId: { type: Number, required: true },
-  postTitle: { type: String, required: true },
-  postDescription: { type: String, required: true },
-  postType: { type: String, required: true },
-  likes: { type: Number, default: 0 },
-  createdAt: { type: Date, default: Date.now }
+const postSchema = new mongoose.Schema({
+  postId: {
+    type: Number,
+    unique: true
+  },
+  user_id: {
+    type: String,
+    required: true
+  },
+  post_title: {
+    type: String,
+    required: true
+  },
+  post_description: {
+    type: String,
+    required: true
+  },
+  post_type: {
+    type: String,
+    required: true
+  },
+  likes: {
+    type: Number,
+    required: true,
+    default: 0
+  },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comments' }]
 });
 
-// postSchema.plugin(AutoIncrement, { inc_field: 'id' });
-
-const Post = mongoose.model("posts", postSchema);
+postSchema.plugin(AutoIncrement, { inc_field: 'postId' });
+const Post = mongoose.model('Post', postSchema);
 
 class Posts {
   static async grabPostFromDB() {
@@ -29,7 +46,7 @@ class Posts {
 
   static async grabFilteredPostsFromDB(filter) {
     try {
-      const posts = await Post.find({ postType: filter }).sort({ createdAt: -1 });
+      const posts = await Post.find({ id: filter }).sort({ createdAt: -1 });
       return posts;
     } catch (error) {
       throw new Error(error);
@@ -45,9 +62,9 @@ class Posts {
     }
   }
 
-  static async addPostToDB( userId, postTitle, postDescription, postType,likes) {
+  static async addPostToDB(user_id, post_title, post_description, post_type, likes) {
     try {
-      const newPost = await Post.create({ userId, postTitle, postDescription, postType,likes });
+      const newPost = await Post.create({ user_id, post_title, post_description, post_type, likes });
       return newPost;
     } catch (error) {
       throw new Error(error);
@@ -90,6 +107,16 @@ class Posts {
       throw new Error(error);
     }
   }
+
+  static async removePost (postId){
+    try {
+      const deletedPost = await Post.findByIdAndDelete(postId);
+      return deletedPost;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
 }
 
 module.exports = { Posts, Post };

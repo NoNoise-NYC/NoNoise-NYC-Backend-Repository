@@ -34,9 +34,9 @@ class Users {
     }
   }
 
-  static async grabUsersDataByEmailFromDB(userEmail) {
+  static async grabUsersDataByEmailFromDB(email) {
     try {
-      const user = await User.findOne({ email: userEmail });
+      const user = await User.findOne({ email });
       return user;
     } catch (error) {
       throw new Error(error);

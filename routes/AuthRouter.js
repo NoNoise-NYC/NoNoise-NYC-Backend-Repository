@@ -4,14 +4,16 @@ const authController = require("../controllers/authController");
 const router = express.Router();
 
 
-router.post("/new_user", authController.validateLogin);
+router.post("/login", authController.validateLogin);
 
-router.get("/:email/:password'", authController.validateLogin);
+router.post("/login", authController.validateToken);
 
-router.post("/new_user", authController.validateRegistration);
+// router.get("/login", function(req, res){authController.validateLogin});
 
-router.post("/new_user", authController.authenticate);
+router.post("/new_user", function(req, res){authController.validateRegistration});
 
-router.post('/logout', authController.logOut);
+router.post("/authenticate", authController.authenticate);
+
+router.post('/logout', function(req, res){authController.logOut});
 
 module.exports = router;

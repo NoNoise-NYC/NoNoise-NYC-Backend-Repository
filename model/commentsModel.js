@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 // mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const commentSchema = new Schema({
-  commentId: { type: Number, required: true },
+
   userId: { type: Number, required: true },
   postId: { type: Number, required: true },
   commentDescription: { type: String, required: true },
@@ -14,7 +15,19 @@ const commentSchema = new Schema({
 
 const Comment = mongoose.model("comments", commentSchema);
 
+// commentSchema.plugin(AutoIncrement, { inc_field: 'id' });
+
 class Comments {
+
+  static async grabCommentFromDB() {
+    try {
+      const posts = await Comment.find({}).sort({ createdAt: -1 });
+      return posts;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   static async grabLatestCommentIdFromDB() {
     try {
       const latestComment = await Comment.findOne().sort({ commentId: -1 });
@@ -33,9 +46,9 @@ class Comments {
     }
   }
 
-  static async createCommentToDB(commentId, userId, postId, comment) {
+  static async createCommentToDB( userId, postId, comment,likes) {
     try {
-      const newComment = await Comment.create({ commentId, userId, postId, commentDescription: comment });
+      const newComment = await Comment.create({  userId, postId, commentDescription: comment ,likes});
       return newComment;
     } catch (error) {
       throw new Error(error);

@@ -28,30 +28,6 @@ catch (error) {
 }
 seed();
 
-// const post2 = {
-//   post_id: 2,
-//   user_id: 2,
-//   post_title: 'Dont know where to start',
-//   post_description: 'what to study for a tech interview',
-//   post_type: 'Technical',
-//   likes: 3,
-//   numberComments: 3
-// };
-// await create(post)
-
-// const post3 = {
-//   post_id: 3,
-//   user_id: 3,
-//   post_title: 'tech view',
-//   post_description: 'How to solve stock question',
-//   post_type: 'LeetCode 75',
-//   likes: 0,
-//   numberComments: 5
-// };
-// await create(post)
-
-
- 
 process.on('SIGINT', () => {
   mongoose.connection.close();
   process.exit();
