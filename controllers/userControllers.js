@@ -33,7 +33,7 @@ const addUserInfo = async (req, res) => {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    const newUser = await Users.createAccountToDB( req.body.username, req.body.email, hashedPassword, req.body.badged_id);
+    const newUser = await Users.createAccountToDB( req.body.username, req.body.email, req.body.password, req.body.badged_id);
     res.send(newUser);
   } catch (error) {
     console.log(error)

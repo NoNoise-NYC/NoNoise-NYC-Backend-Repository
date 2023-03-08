@@ -12,7 +12,7 @@ class ComplaintsController {
 
   static async getComplaints() {
     try {
-      const complaints = await Complaints.find().sort({ createdAt: -1 });
+      const complaints = await Complaints.grabComplaintsFromDB()
       return complaints;
     } catch (error) {
       throw new Error(error);

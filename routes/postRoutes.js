@@ -25,8 +25,8 @@ router.get('/post/order/comments', postController.grabPostOrderByComment);
 router.get('/post/order/likes', postController.grabPostOrderByLikes);
 
 
-router.patch('/post/updateLikes', postController.updateLikes);
-router.get('/post/user/:userId', postController.getUserPosts);
+router.patch('/post/:postId', postController.updateLikes);
+router.get('/post/:userId', postController.getUserPosts);
 router.get('/post/:postId', postController.getPostById);
 router.delete('/post/:postId', postController.deletePost);
 

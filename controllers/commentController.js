@@ -1,11 +1,17 @@
 const mongoose = require("mongoose");
 const {Comments} = require('../model/commentsModel');
 
-const getComments = async (req, res) => {
-    const data = await Comments.grabCommentFromDB()
-    res.send(data);
-};
+const getComments = async (request, response) => {
+    const postId = request.params.postId;
+    const comment = await Comments.grabCommentsFromDB(postId);
+    response.send(comment);
+  };
 
+
+  const getAllComments = async (request, response) => {
+    const comment = await Comments.grabCommentFromDB();
+    response.send(comment);
+  }
 const addComment = async (req, res) => {
 try {
 const {user_id,post_id,commentary,likes} = req.body;
@@ -18,7 +24,8 @@ return res.status(500).send({error: error.message});
 
 module.exports = {
 getComments,
-addComment
+addComment,
+getAllComments
 };
 
 

@@ -64,7 +64,7 @@ class Posts {
 
   static async addPostToDB(user_id, post_title, post_description, post_type, likes) {
     try {
-      const newPost = await Post.create({ user_id, post_title, post_description, post_type, likes });
+      const newPost = await Post.create({user_id, post_title, post_description, post_type, likes });
       return newPost;
     } catch (error) {
       throw new Error(error);

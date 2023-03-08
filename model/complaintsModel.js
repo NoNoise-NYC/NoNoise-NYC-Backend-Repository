@@ -16,9 +16,9 @@ const complaintSchema = new Schema({
 const Complaint = mongoose.model("complaints", complaintSchema);
 
 class Complaints {
-  static async grabComplaintsFromDB(userId) {
+  static async grabComplaintsFromDB() {
     try {
-      const complaints = await Complaint.find({ userId }).sort({ createdAt: -1 });
+      const complaints = await Complaint.find({}).sort({ createdAt: -1 });
       return complaints;
     } catch (error) {
       throw new Error(error);

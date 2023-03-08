@@ -7,6 +7,7 @@ const userRouter = require('./routes/userRouter')
 const complaintRouter = require('./routes/complaintRouter')
 const commentRouter = require('./routes/commentRoutes')
 const authRouter = require('./routes/AuthRouter')
+const bodyParser = require('body-parser');
 
 
 app.use(function(req, res, next) {
@@ -18,7 +19,7 @@ app.use(function(req, res, next) {
 
 app.use(express.json())
 app.use(cors())
-
+app.use(bodyParser.json());
 app.use(userRouter)
 app.use(postRouter)
 app.use(complaintRouter)

@@ -13,16 +13,14 @@ const addPost = async (request, response) => {
   const postInfo = request.body;
 
   // Extract the user id from the authentication token
-  const token = request.headers.authorization.split(' ')[1];
-  const decodedToken = jwt.verify(token, 'secret_key');
-  const userId = 6;
+
 
   const post = await Posts.addPostToDB({
-    user: userId,
+    user_id: postInfo.userId,
     post_title: postInfo.post_title,
     post_description: postInfo.post_description,
     post_type: postInfo.post_type,
-    likes: postInfo.likes
+    likes: 0
   });
 
   response.send(post);
