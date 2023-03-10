@@ -8,7 +8,7 @@ const postSchema = new mongoose.Schema({
     unique: true
   },
   user_id: {
-    type: String,
+    type: String || Number,
     required: true
   },
   post_title: {

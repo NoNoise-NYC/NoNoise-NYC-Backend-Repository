@@ -13,9 +13,10 @@ const getComments = async (request, response) => {
     response.send(comment);
   }
 const addComment = async (req, res) => {
+  const postId = req.body.params
 try {
-const {user_id,post_id,commentary,likes} = req.body;
-const newComment = await Comments.createCommentToDB(user_id,post_id,commentary,likes);
+const {user_id,postId,commentary,likes} = req.body;
+const newComment = await Comments.createCommentToDB(user_id,postId,commentary,likes);
 return newComment ? res.status(200).send(newComment) : res.sendStatus(404);
 } catch (error) {
 return res.status(500).send({error: error.message});

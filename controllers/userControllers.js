@@ -42,8 +42,9 @@ const addUserInfo = async (req, res) => {
 };
 
 const getUsernameAndEmail = async (req, res) => {
+  const id = req.params.id
   try {
-    const user = await Users.grabUsernameAndEmailFromDB(req.query.id);
+    const user = await Users.grabUsernameAndEmailFromDB(id);
     res.send(user);
   } catch (error) {
     res.status(500).send({ error: 'Failed to retrieve user information' });

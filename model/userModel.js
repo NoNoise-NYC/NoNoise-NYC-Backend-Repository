@@ -54,7 +54,7 @@ class Users {
 
   static async grabUsernameAndEmailFromDB(id) {
     try {
-      const user = await User.findOne({ id}, { username: 1, email: 1 });
+      const user = await User.findOne({ id:id}, { username: 1, email: 1 });
       const { username, email } = user;
       return { username, email };
     } catch (error) {
