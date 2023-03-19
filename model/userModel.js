@@ -5,7 +5,7 @@ mongoose.set('strictQuery', false);
 mongoose.connect('mongodb://0.0.0.0:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true },
+  username: { type: String, required: false },
   email: { type: String, required: true },
   password: { type: String, required: true },
   badged_id: { type: Number, default: 0 },

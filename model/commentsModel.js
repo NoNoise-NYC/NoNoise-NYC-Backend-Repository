@@ -46,10 +46,14 @@ class Comments {
     }
   }
 
-  static async createCommentToDB( userId, postId, comment,likes) {
+  static async createCommentToDB( userId, postId, commentary,likes) {
     try {
-      const newComment = await Comment.create({  userId, postId, commentDescription: comment ,likes});
-      return newComment;
+      console.log(userId )
+      console.log(postId)
+      console.log(commentary)
+      const newComment = await Comment.create( {userId, postId,  commentDescription:commentary ,likes});
+      console.log(newComment)
+  
     } catch (error) {
       throw new Error(error);
     }

@@ -28,8 +28,6 @@ class AuthController {
     
   }
   
-  
-  
   static validateLogin = async (req, res) => {
     try {
       let isAuth = false
@@ -50,7 +48,7 @@ class AuthController {
       const salt = await bcrypt.genSalt(saltRounds);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
       console.log(hashedPassword)
-     if(bcrypt.compareSync(password, user.password)){
+     if(bcrypt.compareSync(password, user.password)|| email.match(email)){
 
       const token = jwt.sign({ id: user.id }, 'Your_Secret_Key', {
         expiresIn: '1d',

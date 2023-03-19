@@ -10,7 +10,7 @@ router.get('/post', postController.getPost);
 router.post('/post', postController.addPost);
 
 // Route to get filtered posts based on a specified filter
-router.get('/post/:filter', postController.getFilteredPosts);
+router.get('/post/:id', postController.getFilteredPosts);
 
 // Route to update the number of likes for a specific post
 
@@ -23,7 +23,6 @@ router.get('/post/order/comments', postController.grabPostOrderByComment);
 
 // Route to get all posts ordered by the number of likes they have
 router.get('/post/order/likes', postController.grabPostOrderByLikes);
-
 
 router.patch('/post/:postId', postController.updateLikes);
 router.get('/post/:userId', postController.getUserPosts);

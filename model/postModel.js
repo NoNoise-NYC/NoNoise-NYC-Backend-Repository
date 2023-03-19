@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 const { Users } = require('../model/userModel');
 
+
 const postSchema = new mongoose.Schema({
   postId: {
     type: Number,
@@ -13,7 +14,7 @@ const postSchema = new mongoose.Schema({
   },
   post_title: {
     type: String,
-    required: true
+    required: false
   },
   post_description: {
     type: String,
@@ -21,11 +22,11 @@ const postSchema = new mongoose.Schema({
   },
   post_type: {
     type: String,
-    required: true
+    required: false
   },
   likes: {
     type: Number,
-    required: true,
+    required: false,
     default: 0
   },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comments' }]
@@ -37,7 +38,7 @@ const Post = mongoose.model('Post', postSchema);
 class Posts {
   static async grabPostFromDB() {
     try {
-      const posts = await Post.find({}).sort({ createdAt: -1 });
+      const posts = await Post.find({}).sort({ _id: -1 });
       return posts;
     } catch (error) {
       throw new Error(error);
@@ -71,9 +72,9 @@ class Posts {
     }
   }
 
-  static async grabPostInfoFromDB(postTitle) {
+  static async grabPostInfoFromDB(postId) {
     try {
-      const post = await Post.findOne({ postTitle });
+      const post = await Post.findOne({ postId });
       return post;
     } catch (error) {
       throw new Error(error);
@@ -87,7 +88,6 @@ class Posts {
     } catch (error) {
       throw new Error(error);
     }
-
   }
 
   static async subtractLikesForGivenPostInDB(postId) {
@@ -101,7 +101,7 @@ class Posts {
 
   static async grabPostFromDBBySearch(search) {
     try {
-      const posts = await Post.find({ postTitle: { $regex: search, $options: "i" } }).sort({ createdAt: -1 });
+      const posts = await Post.find({ postTitle: { $regex: search, $options: "i" } }).sort({ _id: -1 });
       return posts;
     } catch (error) {
       throw new Error(error);

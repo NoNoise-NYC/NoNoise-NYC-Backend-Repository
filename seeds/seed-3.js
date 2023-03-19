@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 const {Comments} = require('../model/commentsModel.js');
 mongoose.set('strictQuery', true);
 
-// mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://127.0.0.1:27017/noNoise', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const create = Comments.createCommentToDB
-(1,
+(
   1,
   1,
-  'most asked question'
+  'most asked question',
+  1
 )
 
 async function seed() {

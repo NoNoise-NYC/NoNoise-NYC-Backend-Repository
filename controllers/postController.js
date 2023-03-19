@@ -1,10 +1,10 @@
-const { Posts } = require('../model/postModel');
-const { Users } = require('../model/userModel');
-const jwt = require('jsonwebtoken');
+const { Posts } = require("../model/postModel");
+const { Users } = require("../model/userModel");
+const jwt = require("jsonwebtoken");
 
 // Route to get all posts
 const getPost = async (request, response) => {
-  const data = await Posts.grabPostFromDB()
+  const data = await Posts.grabPostFromDB();
   response.send(data);
 };
 
@@ -12,18 +12,15 @@ const getPost = async (request, response) => {
 const addPost = async (request, response) => {
   const postInfo = request.body;
 
-  // Extract the user id from the authentication token
-
-
-  const post = await Posts.addPostToDB({
-    user_id: postInfo.userId,
-    post_title: postInfo.post_title,
-    post_description: postInfo.post_description,
-    post_type: postInfo.post_type,
-    likes: 0
-  });
-
-  response.send(post);
+  const post = await Posts.addPostToDB(
+    postInfo.user_id,
+    postInfo.post_title,
+    postInfo.post_description,
+    postInfo.post_type,
+    postInfo.likes
+  );
+  console.log(post);
+  response.send(await Posts.grabPostFromDB());
 };
 
 // Route to get filtered posts based on a specified filter
@@ -35,19 +32,18 @@ const getFilteredPosts = async (request, response) => {
 
 // Route to update the number of likes for a specific post
 const updateLikes = async (request, response) => {
+  console.log(request.body);
   const postId = request.body.postId;
   const isLiked = request.body.isLiked;
-
-  let postWithUpdatedLikes = null;
-  const post = await Posts.grabFilteredPostsFromDB(postId);
-  if (isLiked) {
-    post.likes--;
+  if (!isLiked) {
+    const post = await Posts.addToLikesForGivenPostInDB(postId);
+    console.log(post);
+    response.send(post);
   } else {
-    post.likes++;
+    const post = await Posts.subtractLikesForGivenPostInDB(postId);
+    console.log(post);
+    response.send(post);
   }
-  postWithUpdatedLikes = await Posts.addPostToDB(post);
-
-  response.send(postWithUpdatedLikes);
 };
 
 // Route to search for posts based on a specified search term
@@ -86,8 +82,14 @@ const getPostById = async (request, response) => {
 // Route to delete a specific post by its ID
 const deletePost = async (request, response) => {
   const postId = request.params.postId;
-  await Posts.removePost(postId);
-  response.send("Post deleted successfully");
+    console.log(postId)
+    const post = await Posts.grabPostInfoFromDB(postId)
+     console.log(post)
+const id = post.id
+console.log(id)
+ const deleted =  await Posts.removePost(id);
+ console.log(deleted)
+ response.send(await Posts.grabPostFromDB());
 };
 
 module.exports = {
@@ -100,5 +102,5 @@ module.exports = {
   grabPostOrderByLikes,
   getUserPosts,
   getPostById,
-  deletePost
+  deletePost,
 };
